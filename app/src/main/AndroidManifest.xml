@@ -12,6 +12,9 @@
         android:theme="@style/Theme.TicTacToe"
         tools:targetApi="31">
         <activity
+            android:name=".DialogActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectScreen"
             android:exported="false" />
         <activity

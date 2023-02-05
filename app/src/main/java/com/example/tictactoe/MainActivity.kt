@@ -1,6 +1,10 @@
 package com.example.tictactoe
 
+import android.app.Dialog
+import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.location.GnssAntennaInfo.Listener
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +12,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.Window
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.xml.KonfettiView
+import java.lang.reflect.Modifier
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnClickListener {
 
@@ -18,6 +33,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     var active = true
 
     private var Turn = true
+
+    lateinit var animation1: Animation
+    lateinit var animation2: Animation
 
     private var boardList = mutableListOf<ImageView>()
 
@@ -48,6 +66,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private var crossesScore = 0
     private var noughtsScore = 0
 
+    private lateinit var viewKonfetti: KonfettiView
+
     private lateinit var score1: TextView
     private lateinit var score2: TextView
 
@@ -55,6 +75,10 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        animation1 = AnimationUtils.loadAnimation(this, R.anim.anim1)
+        animation2 = AnimationUtils.loadAnimation(this, R.anim.winneranimation)
+
 
         loadElements()
         loadBoard()
@@ -82,9 +106,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         c2.setOnClickListener(this)
         c3.setOnClickListener(this)
 
-        restart.setOnClickListener {
-            restart()
-        }
+
     }
 
     private fun loadElements() {
@@ -109,7 +131,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         score1 = findViewById(R.id.score1)
         score2 = findViewById(R.id.score2)
 
-        restart = findViewById(R.id.restart)
+        viewKonfetti = findViewById(R.id.konfettiView)
     }
 
     private var k = 0
@@ -121,6 +143,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         if (matrix[col][row] == -1) {
             if (active) {
                 img.setImageResource(R.drawable.x_sign)
+                img.startAnimation(animation1)
                 active = false
                 matrix[col][row] = 1
                 isWinner(1)
@@ -128,6 +151,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                 k++
             } else {
                 img.setImageResource(R.drawable.o_sign)
+                img.startAnimation(animation1)
                 active = true
                 matrix[col][row] = 0
                 isWinner(0)
@@ -155,7 +179,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         c2.isEnabled = false
         c3.isEnabled = false
 
-        restart.isEnabled = true
         k = 0
     }
 
@@ -186,6 +209,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                 }
             }
         }
+
         showWinnerName(a)
     }
 
@@ -231,8 +255,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         active = true
         playerCh.text = fPlayerName
 
-        restart.isEnabled = false
-
         winner.text = ""
 
         a1.isEnabled = true
@@ -267,11 +289,45 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         winnerName = if (a == 0) sPlayerName else fPlayerName
 
         if (count == 3) {
-            winner.text = "Winner is " + winnerName
-            if (winnerName == sPlayerName){
-                noughtsScore++
+            winner.text
+            var party = Party(
+                speed = 0f,
+                maxSpeed = 30f,
+                damping = 0.9f,
+                spread = 360,
+                colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+                emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+                position = Position.Relative(0.5, 0.3)
+            )
+            viewKonfetti.start(party)
+
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.dialog)
+
+            val body = dialog.findViewById(R.id.winner) as TextView
+            body.text = "Winner is " + winnerName
+            val yesBtn = dialog.findViewById(R.id.menu) as AppCompatButton
+            val noBtn = dialog.findViewById(R.id.restart) as AppCompatButton
+            val goHome = dialog.findViewById(R.id.home) as AppCompatButton
+            yesBtn.setOnClickListener {
+                dialog.dismiss()
             }
-            else{
+            noBtn.setOnClickListener {
+                restart()
+                dialog.dismiss()
+            }
+            goHome.setOnClickListener {
+                finish()
+                dialog.dismiss()
+            }
+            dialog.show()
+            if (winnerName == sPlayerName) {
+
+                noughtsScore++
+            } else {
                 crossesScore++
             }
             finishGame()
@@ -282,4 +338,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
 
     }
+
+
 }

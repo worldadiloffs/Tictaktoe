@@ -41,14 +41,14 @@
         android:id="@+id/Playerchanger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Player-X"
         android:textColor="#3cdceb"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        tools:text="Player-X" />
 
     <ImageView
         android:id="@+id/a1"
@@ -151,8 +151,9 @@
         android:textColor="@color/white"
         android:textSize="30dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/board"
+        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toTopOf="@id/view"
+        app:layout_constraintEnd_toEndOf="@+id/board"
         app:layout_constraintStart_toStartOf="@+id/board"
         app:layout_constraintTop_toBottomOf="@+id/board" />
 
@@ -162,7 +163,6 @@
         android:layout_height="100dp"
         android:layout_marginTop="4dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="@+id/board"
         app:layout_constraintStart_toStartOf="@+id/board"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -178,7 +178,7 @@
         app:layout_constraintEnd_toStartOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/board"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="Don" />
+        tools:text="Ibrohimxoja" />
 
     <TextView
         android:id="@+id/name2"
@@ -191,70 +191,55 @@
         app:layout_constraintEnd_toEndOf="@+id/board"
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="Asilbek" />
+        tools:text="Abdumajid" />
 
     <TextView
         android:id="@+id/score1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="0"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/name1"
         app:layout_constraintStart_toStartOf="@+id/name1"
-        app:layout_constraintTop_toBottomOf="@+id/name1"
-        android:text="0" />
+        app:layout_constraintTop_toBottomOf="@+id/name1" />
 
     <TextView
         android:id="@+id/score2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="0"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/name2"
         app:layout_constraintStart_toStartOf="@+id/name2"
-        app:layout_constraintTop_toBottomOf="@+id/name2"
-        android:text="0" />
+        app:layout_constraintTop_toBottomOf="@+id/name2" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view"
-        app:srcCompat="@drawable/button" />
 
-    <TextView
-        android:id="@+id/restart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="RESTART"
-        android:textColor="#3cdceb"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
     <TextView
         android:id="@+id/winner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Abdumajid"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/board"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:text="Abdumajid" />
+
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
